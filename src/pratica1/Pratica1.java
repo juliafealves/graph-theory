@@ -168,7 +168,7 @@ public class Pratica1 {
     private static boolean verificaBipartido(Graph<String, DefaultEdge> grafoSimples){
         PatonCycleBase<String,DefaultEdge> ciclo = new PatonCycleBase <> (grafoSimples);
 
-        for (List<DefaultEdge> ciclos: ciclo.getCycleBasis().getCycles()){
+        for (List<String> ciclos: ciclo.findCycleBase()){
             if(ciclos.size() % 2 != 0){
                 return false;
             }
