@@ -1,6 +1,7 @@
 package pratica1;
 
 import org.jgrapht.*;
+import org.jgrapht.alg.cycle.PatonCycleBase;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -8,9 +9,22 @@ import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.util.Arrays;
+import java.util.List;
 
+/**
+ * Classe responsável por execução da atividade de prática 1 da disciplina Teoria dos Grafos.
+ *
+ * @author Júlia Fernandes Alves
+ * @author Wendson Magalhães da Silva
+ * @author Tiago Silva Araújo
+ * @author Álex Micaela de Oliveira Fidelis
+ */
 public class Pratica1 {
 
+    /**
+     * Método principal com a execução dos exemplos de testes para geração da matriz de incidência,
+     * @param args
+     */
     public static void main(String[] args){
         /**
          * Exemplo de grafo simples para geração de matriz de incidência.
@@ -23,10 +37,31 @@ public class Pratica1 {
         /**
          * Exemplo do grafo não-orientado ponderado para obter o menor caminho.
          */
-        String[] vertices2 = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
-        String[] arestas2 = {"AB2", "AG3", "AF7", "BG6", "BC4", "CH2", "CD2", "DH8", "DE1", "EI2", "EF6", "FI5", "IG1", "IH4", "GH3"};
-        SimpleWeightedGraph grafoPonderado = criaGrafoPonderado(vertices2, arestas2);
-        System.out.println(obterMenorCaminho(grafoPonderado, "A", "D"));
+        String[] vertices1 = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
+        String[] arestas1 = {"AB2", "AG3", "AF7", "BG6", "BC4", "CH2", "CD2", "DH8", "DE1", "EI2", "EF6", "FI5", "IG1", "IH4", "GH3"};
+        SimpleWeightedGraph grafoPonderado = criaGrafoPonderado(vertices1, arestas1);
+        System.out.println(obtemMenorCaminho(grafoPonderado, "A", "D"));
+
+        /**
+         * Exemplos de grafos simples para verificar se é bipartido.
+         */
+        String[] vertices2 = {"a", "b", "c", "d", "e", "f", "g"};
+        String[] arestas2 = {"ab", "ac", "bd", "cd", "de", "df", "eg", "fg"};
+        Graph grafo1 = criaGrafoSimples(vertices2, arestas2);
+
+        if (verificaBipartido(grafo1)){
+            System.out.println("É bipartido.");
+        }else {
+            System.out.println("Não é bipartido.");
+        }
+
+        Graph grafo2 = criaGrafoSimples(vertices, arestas);
+
+        if (verificaBipartido(grafo2)){
+            System.out.println("É bipartido.");
+        }else {
+            System.out.println("Não é bipartido.");
+        }
     }
 
     /**
@@ -84,7 +119,7 @@ public class Pratica1 {
      * @param verticeDestino Vértice de destino do caminho.
      * @return String formatada com informação do caminho e a distância do caminho.
      */
-    private static String obterMenorCaminho(SimpleWeightedGraph<String, DefaultWeightedEdge> grafoPonderado, String verticeOrigem, String verticeDestino){
+    private static String obtemMenorCaminho(SimpleWeightedGraph<String, DefaultWeightedEdge> grafoPonderado, String verticeOrigem, String verticeDestino){
         DijkstraShortestPath<String,DefaultWeightedEdge> menorCaminho = new DijkstraShortestPath <> (grafoPonderado);
         String caminho = "Menor caminho: " + menorCaminho.getPaths(verticeOrigem).getPath(verticeDestino) + System.lineSeparator();
         double distancia = menorCaminho.getPathWeight(verticeOrigem, verticeDestino);
@@ -122,5 +157,23 @@ public class Pratica1 {
         matrizIncidencia += "Grau total: " + grafo.edgeSet().size() * 2 + System.lineSeparator();
 
         return matrizIncidencia;
+    }
+
+    /**
+     * Verifica se um grafo do tipo "simples" é bipartido ou não.
+     *
+     * @param grafoSimples Objeto Graph
+     * @return Retorna o valor booleano "true" caso seja bipartido, ou "false" caso contrário.
+     */
+    private static boolean verificaBipartido(Graph<String, DefaultEdge> grafoSimples){
+        PatonCycleBase<String,DefaultEdge> ciclo = new PatonCycleBase <> (grafoSimples);
+
+        for (List<DefaultEdge> ciclos: ciclo.getCycleBasis().getCycles()){
+            if(ciclos.size() % 2 != 0){
+                return false;
+            }
+        }
+
+        return true;
     }
 }
