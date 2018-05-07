@@ -14,10 +14,10 @@ import java.util.List;
 /**
  * Classe responsável por execução da atividade de prática 1 da disciplina Teoria dos Grafos.
  *
- * @author Júlia Fernandes Alves
- * @author Wendson Magalhães da Silva
- * @author Tiago Silva Araújo
  * @author Álex Micaela de Oliveira Fidelis
+ * @author Júlia Fernandes Alves
+ * @author Tiago Silva Araújo
+ * @author Wendson Magalhães da Silva
  */
 public class Pratica1 {
 
